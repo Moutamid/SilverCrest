@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "704701671685",
+    "project_id": "silver-crest",
+    "storage_bucket": "silver-crest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704701671685:android:48ca343d7d9158027fef6c",
+        "android_client_info": {
+          "package_name": "com.example.silvercrest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704701671685-0rqcurhfcvushf5oktd6sjq4k3horjd1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtFJuwf6RT5Uk6FJtJupEhhzcLJzdhxnE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704701671685-0rqcurhfcvushf5oktd6sjq4k3horjd1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

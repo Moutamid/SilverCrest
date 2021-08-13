@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/home"
+        android:title="Dash Board"
+        />
+
+    <!--    <item-->
+    <!--        android:id="@+id/insta"-->
+    <!--        android:icon="@drawable/instagram_logo1"-->
+    <!--        android:title="Instagram"/>-->
+
+    <!--    <item-->
+    <!--        android:id="@+id/whatsapp"-->
+    <!--        android:icon="@drawable/wapsp1"-->
+    <!--        android:title="Whatsapp"/>-->
+
+
+    <!--    <item-->
+    <!--        android:id="@+id/tiktok"-->
+    <!--        android:icon="@drawable/tiktok1"-->
+    <!--        android:title="Tik Tok"/>-->
+    <!--    <item-->
+    <!--        android:id="@+id/facebook"-->
+    <!--        android:icon="@drawable/facebook1"-->
+    <!--        android:title="Facebook"/>-->
+
+    <item
+        android:id="@+id/about_us"
+        android:icon="@drawable/profile_user"
+        android:title="Transaction"/>
+
+    <item
+        android:id="@+id/rate_us"
+        android:icon="@drawable/star"
+        android:title="Rate Us"/>
+
+    <!--    <item-->
+    <!--        android:id="@+id/downloads"-->
+    <!--        android:icon="@drawable/download_logo2"-->
+    <!--        android:title="Downloads"/>-->
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/logout"
+        android:title="Logout"/>
+
+
+</menu>

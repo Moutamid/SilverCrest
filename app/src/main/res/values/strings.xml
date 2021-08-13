@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Silver Crest</string>
+
+    <string-array name="purpose_pay">
+        <item>Family Support</item>
+        <item>Business</item>
+        <item>Education</item>
+    </string-array>
+</resources>
