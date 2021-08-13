@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.silvercrest.MainActivity;
 import com.example.silvercrest.R;
+import com.example.silvercrest.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,6 +41,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
+import static com.example.silvercrest.Utils.*;
 
 
 public class SignupFragment extends Fragment {
@@ -249,6 +251,9 @@ public class SignupFragment extends Fragment {
                                     mRef.child("Phone").setValue(phone);
                                     mRef.child("Balance").setValue("0");
                                     mRef.child("profile").setValue(downloadUrl.toString());
+
+                                    store("emailStr", emailStr);
+                                    store("passwordStr", passwordStr);
 
                                     mDialog.dismiss();
                                     Intent intent = new Intent(getContext(), MainActivity.class);

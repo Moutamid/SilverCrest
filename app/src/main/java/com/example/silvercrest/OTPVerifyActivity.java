@@ -1,8 +1,11 @@
 package com.example.silvercrest;
 
+import static com.example.silvercrest.Utils.*;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -77,14 +80,22 @@ public class OTPVerifyActivity extends AppCompatActivity {
                     }
                 });
 
+        progressDialog = new ProgressDialog(OTPVerifyActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Loading...");
+
         btComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
                 verifyVerificationCode(otp.getText().toString());
 //                saveData();
             }
         });
     }
+
+    private ProgressDialog progressDialog;
+
 
     private void saveData() {
         DatabaseReference mNewRef = mDatabaseUsers.child("Transactions").child(mAuth.getCurrentUser().getUid()).push();
@@ -160,43 +171,68 @@ public class OTPVerifyActivity extends AppCompatActivity {
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         String mycode = credential.getSmsCode();
         if (mycode.equals(otp.getText().toString())) {
+            mAuth.signInWithCredential(credential)
+                    .addOnCompleteListener(OTPVerifyActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                if (mAuth.getCurrentUser() != null)
+                                    mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                mAuth.signInWithEmailAndPassword(Utils.getString("emailStr"), Utils.getString("passwordStr")).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                                        if (task.isSuccessful()) {
+                                                            progressDialog.dismiss();
+                                                            Toast.makeText(OTPVerifyActivity.this, "Code is verified!", Toast.LENGTH_SHORT).show();
+                                                        } else {
+                                                            progressDialog.dismiss();
+                                                            toast(task.getException().getMessage());
+                                                        }
+                                                    }
+                                                });
+                                            } else {
 
-            Toast.makeText(this, "verify", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Not verify", Toast.LENGTH_SHORT).show();
-        }
+                                                progressDialog.dismiss();
+                                                toast(task.getException().getMessage());
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        user.delete();
+                                            }
+                                        }
+                                    });
 
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(OTPVerifyActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            //verification successful we will start the profile activity
-                            Toast.makeText(OTPVerifyActivity.this, "verify", Toast.LENGTH_SHORT).show();
+                                //verification successful we will start the profile activity
+//                                Toast.makeText(OTPVerifyActivity.this, "verify", Toast.LENGTH_SHORT).show();
 
-                        } else {
+                            } else {
 
-                            //verification unsuccessful.. display an error message
+                                progressDialog.dismiss();
+                                toast(task.getException().getMessage());
 
-                            String message = "Somthing is wrong, we will fix it soon...";
+                                //verification unsuccessful.. display an error message
 
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                message = "Invalid code entered...";
+//                                String message = "Somthing is wrong, we will fix it soon...";
+//
+//                                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+//                                    message = "Invalid code entered...";
+//                                }
+//
+//                                Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG);
+//                                snackbar.setAction("Dismiss", new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//
+//                                    }
+//                                });
+//                                snackbar.show();
                             }
-
-                            Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG);
-                            snackbar.setAction("Dismiss", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                }
-                            });
-                            snackbar.show();
                         }
-                    }
-                });
+                    });
+
+        } else {
+            progressDialog.dismiss();
+            toast("Code incorrect!");
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.example.silvercrest.fragments;
 
+import static com.example.silvercrest.Utils.*;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.silvercrest.MainActivity;
 import com.example.silvercrest.R;
+import com.example.silvercrest.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -95,6 +98,9 @@ public class LoginFragment extends Fragment {
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                     if (task.isSuccessful()) {
+                        store("emailStr", emailStr);
+                        store("passwordStr", passwordStr);
+
                         progressDialog.dismiss();
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

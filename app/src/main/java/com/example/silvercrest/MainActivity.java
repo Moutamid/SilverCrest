@@ -1,5 +1,7 @@
 package com.example.silvercrest;
 
+import static com.example.silvercrest.Utils.*;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Utils.getString("emailStr", "n").equals("n")) {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            auth.signOut();
+
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         showUser = headerView.findViewById(R.id.header_user);
